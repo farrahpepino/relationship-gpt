@@ -11,7 +11,8 @@ import { CommonModule } from '@angular/common';
 
 export class Home implements AfterViewChecked {
   @ViewChild('messagesContainer') messagesContainer!: ElementRef;
-  opened=false;
+  opened = false;
+  closed = true;
 
   messages = [
     { role: "user", text: "I just broke up with him" },
@@ -68,6 +69,10 @@ export class Home implements AfterViewChecked {
 
   toggleSidebar(){
     this.opened = !this.opened;
+  }
+
+  toggleChats(){
+    this.closed = !this.closed;
   }
 
   ngAfterViewChecked() {
