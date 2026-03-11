@@ -13,7 +13,7 @@ export class Home implements AfterViewChecked {
   @ViewChild('messagesContainer') messagesContainer!: ElementRef;
   opened=true;
 
-  chat = [
+  messages = [
     { role: "user", text: "I just broke up with him" },
     { role: "agent", text: "I'm so sorry for that" },
     { role: "user", text: "its my fault" },
@@ -41,6 +41,29 @@ export class Home implements AfterViewChecked {
     { role: "agent", text: "I'm so sorry for that" },
     { role: "user", text: "its my fault" },
   ];
+
+  chats = [
+    {
+      id: 1,
+      title: "Stubbornness and love"
+    },
+    {
+      id: 2,
+      title: "Crush remembrance"
+    },
+    {
+      id: 3,
+      title: "Before Sunrise summary"
+    },
+    {
+      id: 4,
+      title: "Date ideas"
+    },
+    {
+      id: 5,
+      title: "How to ask her out"
+    }
+  ]
 
   ngAfterViewChecked() {
     this.scrollToBottom();

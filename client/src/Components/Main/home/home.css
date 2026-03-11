@@ -19,10 +19,38 @@
     top: 20px;
 }
 
+.sign-out{
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+}
+
+.sign-out .icon-hover{
+    display: none;
+}
+
+.sign-out:hover .icon-default{
+    display: none;
+}
+
+.sign-out:hover .icon-hover{
+    display: inline;
+}
+
 .sidebar-btn{
     position:absolute;
-    left:20px;
+    right:20px;
     top: 20px;
+}
+
+.h2{
+    color: #BBB7AB;
+    position: absolute;
+    top: 100px;
+    left: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 .chat-container{
@@ -48,7 +76,7 @@
     display:flex;
     flex-direction:column;
     gap:10px;
-    width: min(65%, 90%);
+    width: min(85%, 90%);
     margin-top: auto;
 }
 
@@ -65,28 +93,80 @@
     padding:10px;
 }
 
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    background-color: rgba(248, 247, 246, 0.80);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(7px);
+    width: 85vw;
+    z-index: 1001;
+    transition:left 0.25s ease;
+    
+}
+
+.chat {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px;
+    border-radius: 0px 0px 12px 12px;
+}
+
+.chat:hover,
+.chat:active {
+    background-color: #BBB7AB;
+}
+
+.chats{
+    width: 90%;
+    position: absolute;
+    top: 150px;
+    left: 20px;
+}
+
+
 @media(min-width: 900px){
 
-.app.open {
-    width: 75%;
-    position: fixed;
-    right: 0;
-}
+    .app.open {
+        width: 75%;
+        position: fixed;
+        right: 0;
+    }
 
-.app.open .header {
-    background-color: white; 
-}
+    .app.open .header {
+        background-color: white; 
+    }
 
-.app.open .logo {
-    right: 50px;
-}
+    .app.open .logo {
+        right: 50px;
+    }
 
-.input-wrapper.open {
- left: 62.5%;  
- transform: translateX(-50%);
-}
+    .input-wrapper.open {
+    left: 62.5%;  
+    transform: translateX(-50%);
+    }
 
-.messages.open{
-    width: min(85%, 90%);
-}
+    .messages.open{
+        width: min(85%, 90%);
+    }
+
+    .sidebar {
+        width: 25vw;
+        top: 0;
+        left: 0;
+    }
+    
+    .sidebar-btn.open {
+        right:20px;
+        top: 20px;
+    }
+
+    .chats{
+        width: 87%;
+    }
+
+    
 }

@@ -9,12 +9,12 @@
     </div>
 
     <div class="chat-container" #messagesContainer>
-        <div class="brand-font empty-chat" *ngIf="chat.length==0">
+        <div class="brand-font empty-chat" *ngIf="messages.length==0">
             Need some relationship advice?
         </div>
-        <div class="messages" *ngIf="chat.length > 0" [class.open]="opened">
+        <div class="messages" *ngIf="messages.length > 0" [class.open]="opened">
             <div 
-                *ngFor="let msg of chat" 
+                *ngFor="let msg of messages" 
                 [class.user]="msg.role === 'user'" 
                 [class.agent]="msg.role === 'agent'"
             >
@@ -31,7 +31,45 @@
     </div>
 </div>
 
-<!-- 
-<div class="sidebar">
 
-</div> -->
+<div class="sidebar">
+    <div>
+        <button type="button" title="sidebar" class="bt-t sidebar-btn" [class.open]="opened">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#473224"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h320v-560H200v560Zm560 0v-560H600v560h160Z"/></svg>
+        </button>
+    </div>
+
+
+    <div>
+        <div class="h2">
+            Your chats
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#BBB7AB"><path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z"/></svg>
+            <!-- <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#BBB7AB"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/></svg> -->
+        </div>
+
+        <div  *ngIf="chats.length > 0" class="chats">
+            <div *ngFor="let chat of chats" class="chat">
+                <div>
+                    {{ chat.title }}
+                </div>
+                <button class="bt-t" title="actions">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#"><path d="M240-400q-33 0-56.5-23.5T160-480q0-33 23.5-56.5T240-560q33 0 56.5 23.5T320-480q0 33-23.5 56.5T240-400Zm240 0q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm240 0q-33 0-56.5-23.5T640-480q0-33 23.5-56.5T720-560q33 0 56.5 23.5T800-480q0 33-23.5 56.5T720-400Z"/></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div>
+        <button type="button" title="sign-out" class="bt-t sign-out">
+            <svg class="icon-hover" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#473224">
+                <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"/>
+            </svg>
+        
+            <svg class="icon-default" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#BBB7AB">
+                <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"/>
+            </svg>
+        </button>
+    </div>
+</div>
