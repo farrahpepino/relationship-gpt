@@ -65,6 +65,8 @@
     padding:10px;
 }
 
+@media(min-width: 900px){
+
 .app.open {
     width: 75%;
     position: fixed;
@@ -86,4 +88,5 @@
 
 .messages.open{
     width: min(85%, 90%);
+}
 }
