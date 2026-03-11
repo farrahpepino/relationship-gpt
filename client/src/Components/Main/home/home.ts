@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
 
 export class Home implements AfterViewChecked {
   @ViewChild('messagesContainer') messagesContainer!: ElementRef;
-  opened=true;
+  opened=false;
 
   messages = [
     { role: "user", text: "I just broke up with him" },
@@ -65,6 +65,11 @@ export class Home implements AfterViewChecked {
     }
   ]
 
+
+  toggleSidebar(){
+    this.opened = !this.opened;
+  }
+
   ngAfterViewChecked() {
     this.scrollToBottom();
   }
@@ -73,6 +78,5 @@ export class Home implements AfterViewChecked {
     const container = this.messagesContainer.nativeElement;
     container.scrollTop = container.scrollHeight;
   }
-
   
 }

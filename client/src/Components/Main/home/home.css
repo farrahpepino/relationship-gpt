@@ -39,8 +39,13 @@
 
 .sidebar-btn{
     position:absolute;
-    right:20px;
+    left:20px;
     top: 20px;
+    z-index: 1101;
+}
+
+.sidebar-btn.open{
+    right: -80%;
 }
 
 .h2{
@@ -96,7 +101,7 @@
 .sidebar {
     position: fixed;
     top: 0;
-    left: 0;
+    left: -100%;
     height: 100vh;
     background-color: rgba(248, 247, 246, 0.80);
     backdrop-filter: blur(8px);
@@ -104,7 +109,12 @@
     width: 85vw;
     z-index: 1001;
     transition:left 0.25s ease;
-    
+    pointer-events: none;
+}
+
+.sidebar.open{
+    left: 0;
+    pointer-events: auto;
 }
 
 .chat {
@@ -155,13 +165,6 @@
 
     .sidebar {
         width: 25vw;
-        top: 0;
-        left: 0;
-    }
-    
-    .sidebar-btn.open {
-        right:20px;
-        top: 20px;
     }
 
     .chats{

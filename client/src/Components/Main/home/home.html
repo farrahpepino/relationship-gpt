@@ -1,7 +1,6 @@
-
 <div class="app" [class.open]="opened">
     <div class="header" [class.open]="opened">
-        <button type="button" title="sidebar" class="bt-t sidebar-btn" *ngIf="opened==false">
+        <button type="button" title="sidebar" class="bt-t sidebar-btn" *ngIf="opened==false" (click)="toggleSidebar()">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#473224"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h320v-560H200v560Zm560 0v-560H600v560h160Z"/></svg>
         </button>
 
@@ -32,9 +31,9 @@
 </div>
 
 
-<div class="sidebar">
+<div class="sidebar" [class.open]="opened">
     <div>
-        <button type="button" title="sidebar" class="bt-t sidebar-btn" [class.open]="opened">
+        <button type="button" title="sidebar" class="bt-t sidebar-btn" [class.open]="opened" (click)="toggleSidebar()">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#473224"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h320v-560H200v560Zm560 0v-560H600v560h160Z"/></svg>
         </button>
     </div>
