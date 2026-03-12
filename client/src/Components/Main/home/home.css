@@ -133,10 +133,9 @@
 }
 
 .chats{
-    width: 90%;
-    position: absolute;
-    top: 150px;
-    left: 20px;
+    width: 80vw;
+    margin-top: 150px;
+    margin-left: 20px;
 }
 
 .send{
@@ -144,6 +143,26 @@
     width: 50px;
     height: 50px;
     border-radius: 50%;
+}
+
+.actions-container{
+    width: 250px;
+    background-color: white;
+    padding: 10px;
+    height: 26px;
+    border-radius: 12px;
+    position: fixed;
+    right: 25px;
+    margin-top: 40px;
+    border: solid 1px #BBB7AB;
+}
+
+.actions-container button{
+    color: #EA3323;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
 }
 
 @media(min-width: 900px){
@@ -176,8 +195,12 @@
     }
 
     .chats{
-        width: 87%;
+        width: 23vw;
     }
 
+    .actions-container{
+        width: 13vw;
+        left: 85%;
+    }
     
 }
