@@ -46,6 +46,8 @@ body {
     overflow-x: hidden;
     white-space: pre-wrap;
     word-break: break-word;
+    scrollbar-width: none; 
+    -ms-overflow-style: none; 
 }
 
 .input:empty::before {
@@ -55,6 +57,9 @@ body {
     font-size: 14px;
 }
 
+.scrollable-container::-webkit-scrollbar {
+  display: none;       
+}
 
 
 
