@@ -1,11 +1,12 @@
 import { Component, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { Loading } from '../../Shared/loading/loading';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, Loading],
   templateUrl: './home.html',
   styleUrls: ['./home.css'],
 })
@@ -119,7 +120,7 @@ export class Home implements AfterViewChecked {
 
 
 
-  
+
   private scrollToBottom(): void {
     const container = this.messagesContainer.nativeElement;
     container.scrollTop = container.scrollHeight;
