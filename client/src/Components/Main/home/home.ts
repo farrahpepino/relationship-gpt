@@ -1,20 +1,21 @@
 import { Component, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { Loading } from '../../Shared/loading/loading';
+import { Auth } from '../../../Services/auth';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, Loading],
+  imports: [CommonModule],
   templateUrl: './home.html',
   styleUrls: ['./home.css'],
 })
 
 export class Home implements AfterViewChecked {
-  constructor(private route: Router){}
+  constructor(private route: Router, private authService: Auth){}
 
   signOut(){
+    this.authService.logout()
     this.route.navigate(['/']);
   }
 
