@@ -4,13 +4,11 @@ import { environment } from '../environments/environment';
 import { ChatResponse } from '../Dtos/chat';
 import { Observable } from 'rxjs';
 import { Message } from '../Dtos/message';
-
+import { forkJoin } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
 export class Chat {
-
-
   private baseUrl = `${environment.apiUrl}`;
 
   constructor(private http: HttpClient) {}
@@ -51,6 +49,16 @@ export class Chat {
     );
   }
 
+  deleteConversation(id: string) {
+    return forkJoin([
+      this.http.delete(`${this.baseUrl}/conversation/${id}`, {
+        headers: this.getHeaders()
+      }),
+      this.http.delete(`${this.baseUrl}/messages/${id}`, {
+        headers: this.getHeaders()
+      })
+    ]);
+  }
 }
 
 

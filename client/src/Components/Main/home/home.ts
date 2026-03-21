@@ -5,7 +5,6 @@ import { Auth } from '../../../Services/auth';
 import { Chat } from '../../../Services/chat';
 import { ChatResponse } from '../../../Dtos/chat';
 import { Message } from '../../../Dtos/message';
-
 import { ChangeDetectorRef } from '@angular/core';
 import { Loading } from '../../Shared/loading/loading';
 
@@ -33,6 +32,15 @@ export class Home implements AfterViewChecked, OnInit {
   @ViewChild('messagesContainer') messagesContainer!: ElementRef;
   opened = false;
   closed = true;
+  expandedChatId: string | null = null;
+
+  toggleActions(id: string) {
+    if (this.expandedChatId === id) {
+      this.expandedChatId = null; 
+    } else {
+      this.expandedChatId = id; 
+    }
+  }
 
   messages: Message[] = [];
   chats: ChatResponse[] = [];
@@ -63,16 +71,13 @@ export class Home implements AfterViewChecked, OnInit {
     this.scrollToBottom();
   }
 
-// rxjs ngrz, azure, b2c, brent ozar
-
 updateChatTitle(chatId: string, newTitle: string) {
   const chat = this.chats.find(c => c.id === chatId);
   if (!chat) return;
-
   chat.title = newTitle;
-
   this.cdr.detectChanges(); 
 }
+
 typeAssistantChatTitle(chat: ChatResponse, speed: number = 50) {
   const originalTitle = chat.title;
   chat.title = ''; 
@@ -101,9 +106,6 @@ typeAssistantChatTitle(chat: ChatResponse, speed: number = 50) {
     inputEl.innerText = '';
 
     this.cdr.detectChanges(); 
-
-    
-
 
     if (conversationId==null){
       this.chatService.createConversation().subscribe({
@@ -139,7 +141,6 @@ typeAssistantChatTitle(chat: ChatResponse, speed: number = 50) {
           console.error("Failed to create conversation");
         }
       })
-
     }
 
     if(this.currentConversationId==conversationId){
@@ -158,7 +159,6 @@ typeAssistantChatTitle(chat: ChatResponse, speed: number = 50) {
 
       
     }
-
 
     if (this.messages.length>=3 && this.messages.length==4 ){
       this.chats = [];
@@ -192,10 +192,27 @@ typeAssistantChatTitle(chat: ChatResponse, speed: number = 50) {
     
   }
 
+  deleteConversation(id: string): void {
+    this.chatService.deleteConversation(id).subscribe({
+      next: () => {
+        this.chats = this.chats.filter(chat => chat.id !== id);
+  
+        if (this.currentConversationId === id) {
+          this.currentConversationId = null;
+          this.messages = [];
+        }
+  
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error("Failed to delete conversation:", err);
+      }
+    });
+  }
+
   trackById(index: number, msg: Message) {
     return msg.id; 
   }
-
 
   typeAssistantMessage(message: Message, speed: number = 50) {
     const typedMessage: Message = { ...message, content: '' };
@@ -224,5 +241,4 @@ typeAssistantChatTitle(chat: ChatResponse, speed: number = 50) {
       behavior: 'smooth'  
     });
   }
-  
 }

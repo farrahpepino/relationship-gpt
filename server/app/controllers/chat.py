@@ -43,3 +43,11 @@ def get_conversations(db: Session = Depends(get_db), user = Depends(get_current_
 @router.get("/{conversation_id}")
 def get_conversation(conversation_id: str, db: Session = Depends(get_db)):
     return chat_service.get_conversation(db, conversation_id)
+
+@router.delete("/messages/{conversation_id}")
+def delete_messages(conversation_id: str, db: Session = Depends(get_db)):
+    chat_service.delete_messages(db, conversation_id)
+
+@router.delete("/conversation/{id}")
+def delete_conversation(id: str, db: Session = Depends(get_db)):
+    chat_service.delete_conversation(db, id)

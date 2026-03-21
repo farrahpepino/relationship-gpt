@@ -5,7 +5,6 @@ from uuid import uuid4
 from fastapi import HTTPException
 from datetime import datetime, timedelta
 
-
 from app.repositories.message_repository import Message_Repository
 from app.repositories.conversation_repository import Conversation_Repository
 from app.models.message import Message
@@ -122,3 +121,9 @@ class Chat_Service:
             print("Title generation failed:", e)
 
         return title
+    
+    def delete_messages(self, db, conversation_id):
+        self.message_repository.delete_messages(db, conversation_id)
+        
+    def delete_conversation(self, db, id):
+        self.conversation_repository.delete_conversation(db, id)

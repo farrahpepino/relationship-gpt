@@ -1,5 +1,4 @@
 <app-loading *ngIf="loading"></app-loading>
-
 <div class="app" [class.open]="opened">
     <div class="header" [class.open]="opened">
         <button type="button" title="sidebar" class="bt-t sidebar-btn" *ngIf="opened==false" (click)="toggleSidebar()">
@@ -28,7 +27,6 @@
         <div contenteditable="true" class="input" data-placeholder="Ask anything"></div>
         <button type="button" title="send" class="bt-t send" (click)="sendMessage(currentConversationId)">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffff"><path d="M440-160v-487L216-423l-56-57 320-320 320 320-56 57-224-224v487h-80Z"/></svg>
-            <!-- <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#473224"><path d="M120-160v-640l760 320-760 320Zm80-120 474-200-474-200v140l240 60-240 60v140Zm0 0v-400 400Z"/></svg> -->
         </button>
     </div>
 </div>
@@ -40,7 +38,6 @@
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#473224"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h320v-560H200v560Zm560 0v-560H600v560h160Z"/></svg>
         </button>
     </div>
-
 
     <div class="sidebar-content">
         <div class="chat-menu">
@@ -58,10 +55,8 @@
             <button type="button" title="view-chats" class="bt-t" (click)="toggleChats()">
                 <svg *ngIf="closed"  xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#BBB7AB"><path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z"/></svg>
                 <svg *ngIf="closed==false"class="right" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#BBB7AB"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/></svg>
-            </button>
-            
+            </button> 
         </div>
-        
 
         <div *ngIf="closed" class="chats">
             
@@ -70,19 +65,21 @@
                     {{ chat.title }}
                 </button>
 
-                <button class="bt-t" title="actions">
+                <button class="bt-t" title="actions"
+                (click)="toggleActions(chat.id); $event.stopPropagation()"
+                >
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#"><path d="M240-400q-33 0-56.5-23.5T160-480q0-33 23.5-56.5T240-560q33 0 56.5 23.5T320-480q0 33-23.5 56.5T240-400Zm240 0q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm240 0q-33 0-56.5-23.5T640-480q0-33 23.5-56.5T720-560q33 0 56.5 23.5T800-480q0 33-23.5 56.5T720-400Z"/></svg>
                 </button>
-                <!-- <div class="actions-container">
-                    <button type="submit" title="delete" class="bt-t">
+                <div class="actions-container"  *ngIf="expandedChatId === chat.id"
+                (click)="$event.stopPropagation()">
+                    <button type="submit" title="delete" class="bt-t" 
+                    (click)="deleteConversation(chat.id); $event.stopPropagation()"
+                    >
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#EA3323"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
                             Delete
                     </button>     
-                </div> -->
-                
+                </div>
             </div>
-
-            <!-- <button class="bt-t">New Conversation +</button> -->
         </div>
     </div>
 

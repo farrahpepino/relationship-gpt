@@ -34,4 +34,14 @@ class Conversation_Repository:
         db.refresh(conversation)
         
         return conversation
-        
+    
+    def delete_conversation(self, db: Session, id):
+        conversation = db.query(Conversation).filter(
+        Conversation.id == id
+        ).first()
+
+        if not conversation:
+            return  
+
+        db.delete(conversation)
+        db.commit()

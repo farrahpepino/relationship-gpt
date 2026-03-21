@@ -12,3 +12,9 @@ class Message_Repository:
     def get_messages(self, db:Session, conversation_id):
         return db.query(Message).filter_by(conversation_id=conversation_id) \
         .order_by(Message.created_at.asc()).all()
+        
+    def delete_messages(self, db: Session, conversation_id):
+        db.query(Message).filter(
+            Message.conversation_id == conversation_id
+        ).delete()
+        db.commit()
