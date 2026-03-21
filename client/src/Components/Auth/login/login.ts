@@ -34,8 +34,10 @@ export class Login implements OnInit{
 
   handleCredentialResponse(response: any) {
     const token = response.credential;
+    localStorage.setItem('token', token);
 
-    this.http.post<User>('http://localhost:8000/auth/google', { token })
+
+    this.http.post<User>(`${environment}/auth/google`, { token })
       .subscribe({
         next: (res) => {
           this.authService.setUser(res);

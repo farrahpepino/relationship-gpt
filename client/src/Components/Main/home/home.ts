@@ -1,7 +1,8 @@
-import { Component, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewChecked, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Auth } from '../../../Services/auth';
+import { Chat } from '../../../Services/chat';
 
 @Component({
   selector: 'app-home',
@@ -11,8 +12,8 @@ import { Auth } from '../../../Services/auth';
   styleUrls: ['./home.css'],
 })
 
-export class Home implements AfterViewChecked {
-  constructor(private route: Router, private authService: Auth){}
+export class Home implements AfterViewChecked, OnInit {
+  constructor(private route: Router, private authService: Auth, private chatService: Chat){}
 
   signOut(){
     this.authService.logout()
@@ -23,18 +24,32 @@ export class Home implements AfterViewChecked {
   opened = false;
   closed = true;
 
-  messages = [
-    { role: "user", text: "I just broke up with him" },
-    { role: "agent", text: "I'm so sorry for that" }
-  ];
+  messages: any[] = [];
+  chats: any[] = [];
+  currentConversationId: string | null = null;
 
-  chats = [
-    {
-      id: 1,
-      title: "Before Sunrise summary"
-    }
-  ]
-
+  ngOnInit(): void {
+      this.chatService.getConversations().subscribe({
+        next: (res)=>{
+          this.chats = res;
+          if(res.length>0){
+            this.currentConversationId = res[res.length-1].id
+            this.chatService.getMessages(this.currentConversationId!).subscribe({
+              next: (res)=> {
+                console.log(res)
+              },
+              error: (err) => {
+                console.error("Failed to fetch messages:", err);
+              }
+            });
+          }
+        },
+        error: (err)=>{
+          console.error("Failed to fetch conversations:", err);
+        }
+      });
+      
+  }
 
   toggleSidebar(){
     this.opened = !this.opened;
@@ -48,6 +63,13 @@ export class Home implements AfterViewChecked {
     this.scrollToBottom();
   }
 
+  sendMessage(){
+
+    
+
+    // create conversation if no chats ,
+    // send message
+  }
 
 
 

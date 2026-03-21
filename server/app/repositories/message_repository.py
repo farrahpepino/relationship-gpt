@@ -10,5 +10,5 @@ class Message_Repository:
         return message
     
     def get_messages(self, db:Session, conversation_id):
-        return db.query(Message).filter_by(conversation_id=conversation_id) \
+        return db.query(Message).filter(conversation_id=conversation_id) \
         .order_by(Message.created_at.asc()).all()

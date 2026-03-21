@@ -15,11 +15,11 @@
         </div>
         <div class="messages" *ngIf="messages.length > 0" [class.open]="opened">
             <div 
-                *ngFor="let msg of messages" 
+                *ngFor="let msg of messages; let i = index" 
                 [class.user]="msg.role === 'user'" 
                 [class.assistant]="msg.role === 'assistant'"
-            >
-                {{ msg.text }}
+                >
+                    {{ msg.text }}
             </div>
         </div>
     </div>

@@ -17,10 +17,10 @@ class Conversation_Repository:
         return conversation
     
     def get_conversation(self, db:Session, conversation_id):
-        return db.query(Conversation).filter_by(id=conversation_id).first()
+        return db.query(Conversation).filter(id=conversation_id).first()
 
     def get_conversations(self, db: Session, user_id):
-        return db.query(Conversation).filter_by(Conversation.user_id==user_id).all()
+        return db.query(Conversation).filter(Conversation.user_id==user_id).all()
     
     def update_title(self, db: Session, conversation_id: str, title: str):
         conversation = self.get_conversation(db, conversation_id)

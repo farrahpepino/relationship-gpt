@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Header, HTTPException
 from sqlalchemy.orm import Session
 
 from app.database.session import get_db
@@ -11,19 +11,22 @@ router = APIRouter()
 chat_service = Chat_Service()
 auth_service = Auth_Service()
 
-
 def get_current_user(
-        token: str,
-        db: Session = Depends(get_db)
-    ):
-        return auth_service.authenticate_account(db, token)
-
+    authorization: str = Header(...),
+    db: Session = Depends(get_db)
+):
+    if not authorization.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Invalid token")
+    
+    token = authorization.split(" ")[1]
+    print(token)
+    return auth_service.authenticate_account(db, token)
 
 @router.post("/create-conversation")
 def create_conversation(db: Session = Depends(get_db), user = Depends(get_current_user) ):
     return chat_service.create_conversation(db, user.id)
 
-@router.post("/{conversation_id}/message")
+@router.post("/{conversation_id}/send-message")
 def send_message(conversation_id: str, body: Message_Request, db: Session = Depends(get_db),user = Depends(get_current_user) ):
     return chat_service.send_message(db, user.id, conversation_id, body.input)
 
