@@ -7,12 +7,13 @@ import { ChatResponse } from '../../../Dtos/chat';
 import { Message } from '../../../Dtos/message';
 
 import { ChangeDetectorRef } from '@angular/core';
+import { Loading } from '../../Shared/loading/loading';
 
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, Loading],
   templateUrl: './home.html',
   styleUrls: ['./home.css'],
 })
@@ -20,8 +21,12 @@ import { ChangeDetectorRef } from '@angular/core';
 export class Home implements AfterViewChecked, OnInit {
   constructor(private cdr: ChangeDetectorRef, private route: Router, private authService: Auth, private chatService: Chat){}
 
+  loading: boolean = true;
+
   signOut(){
-    this.authService.logout()
+    this.loading = true;
+    this.authService.logout();
+    this.loading = false;
     this.route.navigate(['/']);
   }
 
@@ -34,6 +39,7 @@ export class Home implements AfterViewChecked, OnInit {
   currentConversationId: string | null = null;
 
   ngOnInit(): void {
+      this.loading = true;
       this.chatService.getConversations().subscribe({
         next: (res)=>{
           this.chats = res;
@@ -43,11 +49,13 @@ export class Home implements AfterViewChecked, OnInit {
               next: (res)=> {
                 this.messages = res;
                 this.cdr.detectChanges(); 
+                this.scrollToBottom();
               },
               error: (err) => {
                 console.error("Failed to fetch messages:", err);
               }
             });
+            this.loading = false;
           }
         },
         error: (err)=>{
@@ -87,7 +95,8 @@ export class Home implements AfterViewChecked, OnInit {
             next: (response)=>{
               console.log(response)
               this.messages.push(response[0]);
-              this.messages.push(response[1]);
+              this.scrollToBottom();
+              this.typeAssistantMessage(response[1]);
               this.cdr.detectChanges(); 
             }, 
             error: (err)=>{
@@ -106,7 +115,8 @@ export class Home implements AfterViewChecked, OnInit {
       this.chatService.sendMessage(conversationId!, input).subscribe({
         next: (response)=>{
           this.messages.push(response[0]);
-          this.messages.push(response[1]);
+          this.scrollToBottom();
+          this.typeAssistantMessage(response[1]);
           this.cdr.detectChanges(); 
         }, 
         error: (err)=>{
@@ -133,9 +143,33 @@ export class Home implements AfterViewChecked, OnInit {
     return msg.id; 
   }
 
+
+  typeAssistantMessage(message: Message, speed: number = 50) {
+    const typedMessage: Message = { ...message, content: '' };
+    this.messages.push(typedMessage);
+  
+    let index = 0;
+    const interval = setInterval(() => {
+      if (index < message.content.length) {
+        typedMessage.content += message.content[index];
+        index++;
+        this.cdr.detectChanges(); 
+        this.scrollToBottom();
+
+      } else {
+        clearInterval(interval);
+        this.scrollToBottom();
+
+      }
+    }, speed);
+  }
+
   private scrollToBottom(): void {
     const container = this.messagesContainer.nativeElement;
-    container.scrollTop = container.scrollHeight;
+    container.scrollTo({
+      top: container.scrollHeight,
+      behavior: 'smooth'  
+    });
   }
   
 }
