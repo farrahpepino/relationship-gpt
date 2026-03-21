@@ -72,7 +72,6 @@ class Chat_Service:
             role="user",
             content=user_input,
             created_at = datetime.now() 
-
         )
         self.message_repository.create(db,user_msg )
 
