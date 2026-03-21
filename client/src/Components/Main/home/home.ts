@@ -43,25 +43,12 @@ export class Home implements AfterViewChecked, OnInit {
       this.chatService.getConversations().subscribe({
         next: (res)=>{
           this.chats = res;
-          if(res.length>0){
-            this.currentConversationId = res[res.length-1].id
-            this.chatService.getMessages(this.currentConversationId!).subscribe({
-              next: (res)=> {
-                this.messages = res;
-                this.cdr.detectChanges(); 
-                this.scrollToBottom();
-              },
-              error: (err) => {
-                console.error("Failed to fetch messages:", err);
-              }
-            });
-            this.loading = false;
-          }
         },
         error: (err)=>{
           console.error("Failed to fetch conversations:", err);
         }
-      });      
+      });  
+      this.loading = false;    
   }
 
   toggleSidebar(){
@@ -77,6 +64,33 @@ export class Home implements AfterViewChecked, OnInit {
   }
 
 // rxjs ngrz, azure, b2c, brent ozar
+
+updateChatTitle(chatId: string, newTitle: string) {
+  const chat = this.chats.find(c => c.id === chatId);
+  if (!chat) return;
+
+  chat.title = newTitle;
+
+  this.cdr.detectChanges(); 
+}
+typeAssistantChatTitle(chat: ChatResponse, speed: number = 50) {
+  const originalTitle = chat.title;
+  chat.title = ''; 
+
+  let index = 0;
+  const interval = setInterval(() => {
+    if (index < originalTitle.length) {
+      chat.title += originalTitle[index];
+      index++;
+      this.cdr.detectChanges(); 
+    } else {
+      clearInterval(interval);
+      chat.last_opened = new Date(); 
+      this.cdr.detectChanges();
+    }
+  }, speed);
+}
+
   sendMessage(conversationId: string | null){
     const inputEl = document.querySelector('.input') as HTMLDivElement;
     if (!inputEl) return;
@@ -86,6 +100,10 @@ export class Home implements AfterViewChecked, OnInit {
   
     inputEl.innerText = '';
 
+    this.cdr.detectChanges(); 
+
+    
+
 
     if (conversationId==null){
       this.chatService.createConversation().subscribe({
@@ -94,10 +112,22 @@ export class Home implements AfterViewChecked, OnInit {
           this.chatService.sendMessage(res.id,input).subscribe({
             next: (response)=>{
               console.log(response)
+              this.cdr.detectChanges(); 
               this.messages.push(response[0]);
               this.scrollToBottom();
               this.typeAssistantMessage(response[1]);
               this.cdr.detectChanges(); 
+              this.chats = [];
+              this.chatService.getConversations().subscribe({
+                next: (res)=>{
+                  this.chats = res;
+                  this.typeAssistantChatTitle(this.chats[0])
+                  this.cdr.detectChanges(); 
+                },
+                error: (err)=>{
+                  console.error("Failed to fetch chats:", err)
+                }
+              })
             }, 
             error: (err)=>{
               console.error("Failed to send message");
@@ -109,11 +139,13 @@ export class Home implements AfterViewChecked, OnInit {
           console.error("Failed to create conversation");
         }
       })
+
     }
 
     if(this.currentConversationId==conversationId){
       this.chatService.sendMessage(conversationId!, input).subscribe({
         next: (response)=>{
+          this.cdr.detectChanges(); 
           this.messages.push(response[0]);
           this.scrollToBottom();
           this.typeAssistantMessage(response[1]);
@@ -123,20 +155,41 @@ export class Home implements AfterViewChecked, OnInit {
           console.error("Failed to send message");
         }
       });
+
+      
+    }
+
+
+    if (this.messages.length>=3 && this.messages.length==4 ){
+      this.chats = [];
+      this.chatService.getConversations().subscribe({
+        next: (res)=>{
+          this.chats = res;
+          this.typeAssistantChatTitle(this.chats[0])
+          this.cdr.detectChanges(); 
+        },
+        error: (err)=>{
+          console.error("Failed to fetch chats:", err)
+        }
+      })
     }
   }
 
-  selectChat(conversationId: string) {
+  selectChat(conversationId: string | null) {
     this.currentConversationId = conversationId;
-    this.chatService.getMessages(this.currentConversationId!).subscribe({
-      next: (res)=> {
-        this.messages = res;
-        this.cdr.detectChanges(); 
-      },
-      error: (err) => {
-        console.error("Failed to fetch messages:", err);
-      }
-    });
+    this.messages = [];
+    if (conversationId!=null){
+      this.chatService.getMessages(this.currentConversationId!).subscribe({
+        next: (res)=> {
+          this.messages = res;
+          this.cdr.detectChanges(); 
+        },
+        error: (err) => {
+          console.error("Failed to fetch messages:", err);
+        }
+      });
+    }
+    
   }
 
   trackById(index: number, msg: Message) {

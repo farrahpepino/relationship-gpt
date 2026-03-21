@@ -30,7 +30,6 @@ def create_conversation(db: Session = Depends(get_db), user = Depends(get_curren
 @router.post("/{conversation_id}/send-message")
 def send_message(conversation_id: str, body: Message_Request, db: Session = Depends(get_db),user = Depends(get_current_user)):
     response = chat_service.send_message(db, user.id, conversation_id, body.input)
-    print(response)
     return response
 
 @router.get("/{conversation_id}/messages")
