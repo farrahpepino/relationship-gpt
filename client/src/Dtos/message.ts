@@ -1,9 +1,9 @@
 export interface Message {
-    id: string;
-    conversation_id: string;
+    id: string | null;
+    conversation_id: string | null;
     content: string; 
     role: string;
-    created_at: Date;
+    created_at: Date | null;
   }
 
   

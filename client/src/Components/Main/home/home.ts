@@ -106,16 +106,23 @@ typeAssistantChatTitle(chat: ChatResponse, speed: number = 50) {
     inputEl.innerText = '';
 
     this.cdr.detectChanges(); 
+    this.messages.push({
+      id: null,
+      conversation_id: conversationId,
+      content: input,
+      role: 'user',
+      created_at: new Date()
+    })
 
     if (conversationId==null){
       this.chatService.createConversation().subscribe({
         next: (res)=>{
-          this.currentConversationId = res.id
+          this.currentConversationId = res.id;
           this.chatService.sendMessage(res.id,input).subscribe({
             next: (response)=>{
               console.log(response)
               this.cdr.detectChanges(); 
-              this.messages.push(response[0]);
+              // this.messages.push(response[0]);
               this.scrollToBottom();
               this.typeAssistantMessage(response[1]);
               this.cdr.detectChanges(); 
@@ -147,7 +154,7 @@ typeAssistantChatTitle(chat: ChatResponse, speed: number = 50) {
       this.chatService.sendMessage(conversationId!, input).subscribe({
         next: (response)=>{
           this.cdr.detectChanges(); 
-          this.messages.push(response[0]);
+          // this.messages.push(response[0]);
           this.scrollToBottom();
           this.typeAssistantMessage(response[1]);
           this.cdr.detectChanges(); 
