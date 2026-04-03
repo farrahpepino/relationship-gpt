@@ -12,6 +12,17 @@
     margin-left: 5px;
 }
 
+.delete{
+    width: 97.4%;
+    padding: 10px;
+    height: 40px;
+    border-radius: 9px;
+}
+
+.delete:hover{
+    background-color: #fff1f1; 
+}
+
 .custom-cursor {
     display: inline-block;
     width: 1px;
@@ -209,13 +220,16 @@
 .actions-container{
     width: 250px;
     background-color: white;
-    padding: 10px;
+    padding: 10px 0px;
     height: 26px;
     border-radius: 12px;
     position: fixed;
     right: 25px;
     margin-top: 40px;
     border: solid 1px #BBB7AB;
+    display:flex;
+    justify-content:center;
+    align-items: center;
 }
 
 .actions-container button{

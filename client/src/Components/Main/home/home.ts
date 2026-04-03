@@ -106,6 +106,20 @@ typeAssistantChatTitle(chat: ChatResponse, speed: number = 50) {
 
   sendMessage(conversationId: string | null){
 
+    if ((this.messages.length -1)%8===0 ){
+      this.chats = [];
+      this.chatService.getConversations().subscribe({
+        next: (res)=>{
+          this.chats = res;
+          this.typeAssistantChatTitle(this.chats[0])
+          this.cdr.detectChanges(); 
+        },
+        error: (err)=>{
+          console.error("Failed to fetch chats:", err)
+        }
+      })
+    }
+
     this.loadingText = true;
     const inputEl = document.querySelector('.input') as HTMLDivElement;
     if (!inputEl) return;
@@ -182,19 +196,7 @@ typeAssistantChatTitle(chat: ChatResponse, speed: number = 50) {
       
     }
 
-    if (this.messages.length%8==0 ){
-      this.chats = [];
-      this.chatService.getConversations().subscribe({
-        next: (res)=>{
-          this.chats = res;
-          this.typeAssistantChatTitle(this.chats[0])
-          this.cdr.detectChanges(); 
-        },
-        error: (err)=>{
-          console.error("Failed to fetch chats:", err)
-        }
-      })
-    }
+   
   }
 
   selectChat(conversationId: string | null) {
