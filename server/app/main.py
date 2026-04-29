@@ -5,8 +5,6 @@ from app.controllers import auth, chat
 from app.database.base import Base
 from app.database.session import engine
 
-from app.models import user
-
 app = FastAPI()
 
 app.add_middleware(
