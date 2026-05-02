@@ -25,8 +25,8 @@
 
 .custom-cursor {
     display: inline-block;
-    width: 1px;
-    height: 1em;
+    width: 1.5px;
+    height: 1.5em;
     background-color:  #473224;
     margin-left: 2px;
     animation: cursor-blink 0.75s steps(2) infinite;
