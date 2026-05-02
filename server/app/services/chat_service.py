@@ -113,7 +113,7 @@ class Chat_Service:
                 input=[
                     {
                         "role": "system",
-                        "content": "Generate a short title (max 6 words) for this conversation. When you generate a title, please do not add double or single quotes like usual titles are. It is for a website."
+                        "content": "Generate a short title (max 6 words) for this conversation. It is a RelationshipGPT, make sure it is romantic. When you generate a title, please do not add double or single quotes like usual titles are. It is for a website."
                     },
                     {
                         "role": "user",

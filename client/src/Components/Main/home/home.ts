@@ -25,9 +25,11 @@ export class Home implements AfterViewChecked, OnInit {
   constructor(private cdr: ChangeDetectorRef, private route: Router, private authService: Auth, private chatService: Chat, private sanitizer: DomSanitizer){}
   loadingText = false;
   loading: boolean = true;
+  
   sanitizeHtml(content: string): SafeHtml {
     return this.sanitizer.bypassSecurityTrustHtml(content);
   }
+
   signOut(){
     this.loading = true;
     this.authService.logout();
